@@ -2,15 +2,16 @@
 
 Inspection of binary files for the [o2r Web API](http://o2r.info/o2r-web-api/).
 
-Implements the endpoint `/api/v1/inspection` using [plumber]().
+Implements the endpoint `/api/v1/inspection` using [plumber](https://www.rplumber.io/).
 
 ## Run
 
 From R:
 
 ```r
-Sys.setenv(DEBUGME = "api", DEBUGME_OUTPUT_FILE="log.txt")
-source("index.R")
+Sys.setenv(DEBUGME = "inspecter")
+library("inspecter")
+inspecter::start()
 ```
 
 From a shell:
@@ -21,7 +22,7 @@ From a shell:
 With Docker:
 
 ```bash
-docker run --rm -p 8091:8000 -v $(pwd):/inspecter trestletech/plumber /inspecter/index.R
+...
 ```
 
 `/api/v1/inspestion/<compendium_id>?file=filename.RData`
@@ -31,6 +32,8 @@ Name of file must be correct, error handling breaks.
 `@param objects`
 if not specified, entire content of `.RData`-file is returned. Currently, only one object can be specified; specifying more than one breaks the `for()`-loop.
 
+`<ip>:8091/api` shows the microservice status.
+
 ## Configuration
 
 - `INSPECTER_PORT`
@@ -38,9 +41,13 @@ if not specified, entire content of `.RData`-file is returned. Currently, only o
 
 ## Development
 
+### API docs
+
 `plumber` integrates a swagger UI, you can normally open it at http://127.0.0.1:8091/__swagger__/.
 
-`<ip>:8091/api` shows the microservice status.
+### Run tests
+
+
 
 ## License
 

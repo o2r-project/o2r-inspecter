@@ -7,11 +7,15 @@ Authors@R: c(
 Description: A microservice in the o2r web API (http://o2r.info/o2r-web-api/) for inspecting contents of RData files on a server.
 Depends: R (>= 3.4.3)
 License: Apache License 2.0 | file LICENSE
-URL: https://github.com/o2r/o2r-inspecter/
+URL: https://github.com/o2r/o2r-inspecter, http://o2r.info
 BugReports: https://github.com/o2r/o2r-inspecter/issues
 Encoding: UTF-8
 LazyData: true
 Imports: plumber,
     jsonlite,
-    debugme
+    debugme,
+    here,
+    kimisc
 RoxygenNote: 6.0.1
+Suggests: testthat
+Collate: start.R hooks.R
