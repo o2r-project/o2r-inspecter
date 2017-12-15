@@ -10,16 +10,19 @@ dist: trusty
 services:
   - docker
 
+warnings_are_errors: true
+
 before_install:
   - docker pull rocker/r-ver:3.4.3
-  - R -q -e 'devtools::install_github("r-lib/testthat")'
-
-warnings_are_errors: true
 
 r_packages:
   - lintr
   - testthat
   - roxygen2
+  - devtools
+
+r_github_packages:
+  - "r-lib/testthat"
 
 script:
   - R -q -e 'devtools::test()'
