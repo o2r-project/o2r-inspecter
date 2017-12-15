@@ -1,0 +1,26 @@
+language: r
+
+r:
+  - release
+
+cache: packages
+sudo: required
+dist: trusty
+
+services:
+  - docker
+
+before_install:
+  - docker pull rocker/r-ver:3.4.3
+
+warnings_are_errors: true
+
+r_packages:
+  - lintr
+  - testthat
+
+script:
+  - R -q -e 'devtools::test()'
+
+after_success:
+  - Rscript -e 'lintr::lint_package()'

@@ -6,12 +6,14 @@ RUN apt-get update -qq && apt-get install -y \
   libcurl4-gnutls-dev \
   zlib1g-dev
 
-RUN R -e 'install.packages(c("devtools"))'
+RUN R -q -e 'install.packages(c("devtools"))'
 
 COPY . /inspecter
 WORKDIR /inspecter
-RUN R -e 'devtools::install()'
+RUN R -q -e 'devtools::install()'
 RUN rm -r /inspecter
+
+ENV DEBUGME=inspecter
 
 LABEL maintainer="o2r-project <https://o2r.info>" \
   org.label-schema.vendor="o2r project" \

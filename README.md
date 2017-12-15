@@ -14,11 +14,6 @@ library("inspecter")
 inspecter::start()
 ```
 
-From a shell:
-
-```bash
-```
-
 With Docker:
 
 ```bash
@@ -48,7 +43,14 @@ if not specified, entire content of `.RData`-file is returned. Currently, only o
 
 ### Run tests
 
+```r
+devtools::test()
+```
 
+We must start the service independently of the tests, so the tests include building the inspecter Docker image and starting/removing of a Docker container.
+**It's recommended to build the image manually once to create a build cache**.
+
+The test relies on it's own Dockerfile at `tests/testthat/Dockerfile`, which tries to reduce rebuild time to improve local development experience.
 
 ## License
 

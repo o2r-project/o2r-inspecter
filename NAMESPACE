@@ -2,3 +2,4 @@
 
 export(start)
 importFrom(debugme,debugme)
+importFrom(utils,object.size)

@@ -13,9 +13,8 @@ Encoding: UTF-8
 LazyData: true
 Imports: plumber,
     jsonlite,
-    debugme,
-    here,
-    kimisc
+    debugme
 RoxygenNote: 6.0.1
-Suggests: testthat
+Suggests: testthat,
+    httr
 Collate: hooks.R start.R

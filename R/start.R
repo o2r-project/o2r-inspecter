@@ -1,10 +1,14 @@
 # Copyright 2017 Opening Reproducible Research (http://o2r.info)
 
+#' Start the inspecter microservice
+#'
+#' All configuration via environment variables.
+#'
+#' @return a Plumber router
+#'
 #' @export
+#' @importFrom utils object.size
 start <- function() {
-  cat("start: pkg:", environmentName(topenv(parent.frame())), "\n")
-  print(topenv(parent.frame()))
-
   "!DEBUG starting..."
 
   api_file <- file.path(find.package("inspecter"), "api.R")
@@ -21,7 +25,7 @@ start <- function() {
   })
   pr$registerHook("postserialize", function(req, res){
     "!DEBUG `paste(log_timestamp(), req$REQUEST_METHOD, req$PATH_INFO, '| Response sent:', res$status,
-                     '| size:', format(object.size(x = res$body), standard = 'IEC', unit = 'auto'))`"
+                     '| size:', format(utils::object.size(x = res$body), standard = 'IEC', unit = 'auto'))`"
   })
   pr$registerHook("exit", function(){
     "!DEBUG shutting down at `log_timestamp()`"
