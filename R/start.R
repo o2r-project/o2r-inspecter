@@ -11,9 +11,6 @@ start <- function() {
   "!DEBUG initialize plumber with route definitions from `api_file`"
   pr <- plumber::plumb(file = api_file)
 
-  cat("init: pkg:", environmentName(topenv(parent.frame())), "\n")
-  print(topenv(parent.frame()))
-
   # add logging hooks
   log_timestamp <- function() {
     return(paste(as.character(Sys.time()), "|"))
