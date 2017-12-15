@@ -18,4 +18,4 @@ Imports: plumber,
     kimisc
 RoxygenNote: 6.0.1
 Suggests: testthat
-Collate: start.R hooks.R
+Collate: hooks.R start.R

@@ -9,7 +9,7 @@ Implements the endpoint `/api/v1/inspection` using [plumber](https://www.rplumbe
 From R:
 
 ```r
-Sys.setenv(DEBUGME = "inspecter")
+Sys.setenv(DEBUGME = "R_GlobalEnv,base,inspecter")
 library("inspecter")
 inspecter::start()
 ```
@@ -22,10 +22,11 @@ From a shell:
 With Docker:
 
 ```bash
-...
+docker build --tag inspecter .
+docker run --rm -it -p 8091:8081 inspecter
 ```
 
-`/api/v1/inspestion/<compendium_id>?file=filename.RData`
+`/api/v1/inspection/<compendium_id>?file=filename.RData`
 returns contents of an `.RData`-file. Currently only possible within the `o2r-inspecter/test/` directory with mock compendium directory `testCompendium`.
 Name of file must be correct, error handling breaks. 
 
