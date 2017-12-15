@@ -8,10 +8,10 @@
 #'
 #' @export
 #' @importFrom utils object.size
-start <- function() {
+start <- function(api = "api.R") {
   "!DEBUG starting..."
 
-  api_file <- file.path(find.package("inspecter"), "api.R")
+  api_file <- file.path(find.package("inspecter"), api)
   "!DEBUG initialize plumber with route definitions from `api_file`"
   pr <- plumber::plumb(file = api_file)
 
