@@ -5,7 +5,6 @@
 .inspecter_port <- Sys.getenv("INSPECTER_PORT", unset = "8091")
 .inspecter_host <- Sys.getenv("INSPECTER_HOST", unset = "0.0.0.0")
 
-
 .log_timestamp <- function() {
   return(paste(as.character(Sys.time()), "|"))
 }
@@ -19,7 +18,9 @@
 #' @export
 #' @importFrom utils object.size
 start <- function() {
-  "!DEBUG starting..."
+  "!DEBUG Starting..."
+  "!DEBUG Configuration: base path: `.inspecter_base_path` host: `.inspecter_host` port: `.inspecter_port`"
+  print(Sys.getenv())
 
   pr <- plumber::plumber$new()
 

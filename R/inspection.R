@@ -53,25 +53,50 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
   "!!DEBUG Loaded file, environment contents: `toString(ls(compendium_env, all.names = TRUE))`"
 
   if (is.na(objects)) {
-    # return full JSON
-    mget(ls(envir = compendium_env))
+    # return all objects in the file
+    response <- mget(ls(envir = compendium_env, all.names = TRUE), envir = compendium_env)
+    "!!DEBUG Returning response: \n`capture.output(str(response, max.level = 2))`"
+   rm("compendium_env")
+   return(response)
   } else {
-    for (o in objects) {
+    .objects <- base::unlist(strsplit(x = objects, split = ","))
+    .objects <- .objects[.objects != ""]
+    "!!DEBUG Returning only `length(.objects)` object(s): `toString(.objects)`"
+
+    unloadable <- list()
+    .objects <- base::sapply(X = .objects, FUN = function(.o) {
       tryCatch({
-        mget(o)
+          .loaded <- get(.o, envir = compendium_env)
+          "!!!DEBUG Can load '`.o`': `toString(.loaded)`"
+          return(.o)
       },
       error = function(e) {
-        msg <- paste("Error: requested data does not exist. Object " , o , "could not be read.")
-        status <- 400 # bad request
-        error = c(status, msg, e)
-        break
+        "!DEBUG Error loading object `.o`: `toString(e)`"
+        unloadable <<- c(unloadable, paste0("Error: Object '", .o, "' does not exist in the file ", file_sanitized))
+        return(NULL)
       })
+    })
+    .objects <- base::unlist(.objects[!sapply(.objects, is.null)])
+    unloadable <- base::unlist(unloadable)
+    "!DEBUG Loadable objects: `toString(.objects)`"
+    "!DEBUG Unloadable: `toString(unloadable)`"
+
+    # only return selected objects from the file
+    response <- NULL
+    if (length(.objects) > 0) {
+      response <- mget(.objects, envir = compendium_env)
+
+      if (length(unloadable) > 0)
+        response <- c(response, list(errors = unlist(unloadable)))
+    } else if (length(unloadable) > 0) {
+      response <- list(errors = unlist(unloadable))
+    } else {
+      "!DEBUG Error state: `toString(unloadable)`"
+      res$status <- 500
+      return(list(error = jsonlite::unbox("Error loading objects")))
     }
-    if (!is.na(error)) { error }
 
-    # only return object
-    mget(objects)
+    rm("compendium_env")
+    return(response)
   }
-
-  rm("compendium_env")
 }

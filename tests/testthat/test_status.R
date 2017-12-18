@@ -11,7 +11,7 @@ test_that("status response is HTTP 200", {
 
 test_that("status response contains valid JSON", {
   r <- GET("http://localhost:8091/status")
-  expect_true(jsonlite::validate(httr::content(r, as = "text")))
+  expect_true(jsonlite::validate(httr::content(r, as = "text", encoding = "UTF-8")))
 })
 
 test_that("response has only one property 'status'", {

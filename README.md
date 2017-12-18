@@ -34,6 +34,10 @@ if not specified, entire content of `.RData`-file is returned. Currently, only o
 
 - `INSPECTER_PORT`
   The port to run the service at, defaults to `8091`
+- `INSPECTER_HOST`
+  The host to listen to, defaults to `0.0.0.0`
+- `INSPECTER_BASEPATH`
+  The data directory, defaults to `/tmp/o2r`
 
 ### API docs
 
@@ -45,6 +49,12 @@ if not specified, entire content of `.RData`-file is returned. Currently, only o
 Sys.setenv(DEBUGME = "inspecter", INSPECTER_BASEPATH = file.path(getwd(), "tests/testthat/data"))
 library("inspecter")
 inspecter::start()
+```
+
+For developing tests, it is useful to run the service from the terminal and have the R session for writing the tests:
+
+```bash
+DEBUGME=inspecter R -q -e 'library("inspecter"); inspecter::start()'
 ```
 
 ### Run tests

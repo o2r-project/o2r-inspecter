@@ -12,9 +12,9 @@ RUN R -q -e 'install.packages(c("devtools", "plumber", "jsonlite", "debugme"))'
 COPY . /inspecter
 WORKDIR /inspecter
 RUN R -q -e 'devtools::install(quick = TRUE)'
-RUN rm -r /inspecter
 
 ENV DEBUGME=inspecter
+ENV INSPECTER_BASEPATH=/inspecter/tests/testthat/data/
 
 LABEL maintainer="o2r-project <https://o2r.info>"
 
