@@ -13,7 +13,8 @@ start <- function(api = "api.R") {
 
   api_file <- file.path(find.package("inspecter"), api)
   "!DEBUG initialize plumber with route definitions from `api_file`"
-  pr <- plumber::plumb(file = api_file)
+  api_env <- new.env(parent = as.environment("package:inspecter"))
+  pr <- plumber::plumber$new(file = api_file, envir = api_env)
 
   # add logging hooks
   log_timestamp <- function() {

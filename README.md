@@ -9,7 +9,7 @@ Implements the endpoint `/api/v1/inspection` using [plumber](https://www.rplumbe
 From R:
 
 ```r
-Sys.setenv(DEBUGME = "R_GlobalEnv,base,inspecter")
+Sys.setenv(DEBUGME = "inspecter")
 library("inspecter")
 inspecter::start()
 ```
