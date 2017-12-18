@@ -17,4 +17,4 @@ Imports: plumber,
 RoxygenNote: 6.0.1
 Suggests: testthat,
     httr
-Collate: hooks.R start.R
+Collate: hooks.R inspection.R compendium.R status.R start.R

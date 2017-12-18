@@ -35,11 +35,17 @@ if not specified, entire content of `.RData`-file is returned. Currently, only o
 - `INSPECTER_PORT`
   The port to run the service at, defaults to `8091`
 
-## Development
-
 ### API docs
 
 `plumber` integrates a swagger UI, you can normally open it at http://127.0.0.1:8091/__swagger__/.
+
+## Development
+
+```r
+Sys.setenv(DEBUGME = "inspecter", INSPECTER_BASEPATH = file.path(getwd(), "tests/testthat/data"))
+library("inspecter")
+inspecter::start()
+```
 
 ### Run tests
 
