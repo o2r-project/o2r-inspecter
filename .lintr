@@ -1,0 +1,11 @@
+linters: with_defaults(line_length_linter(120))
+exclusions: list("tests/testthat/data/create_example_data.R",
+	"tests/testthat/test_aaa.R",
+	"tests/testthat/test_inspection_call.R",
+	"tests/testthat/test_inspection_matrices.R",
+	"tests/testthat/test_inspection.R",
+	"tests/testthat/test_inspection_simple.R",
+	"tests/testthat/test_inspection_subdir.R",
+	"tests/testthat/test_start.R",
+	"tests/testthat/test_status.R",
+	"tests/testthat/test_zzz.R")

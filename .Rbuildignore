@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+Dockerfile
+hooks
+.lintr
+.travis.yml
+.dockerignore

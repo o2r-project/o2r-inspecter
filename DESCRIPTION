@@ -1,0 +1,19 @@
+Package: inspecter
+Title: Deep file inspection for the o2r Web API
+Version: 0.0.1
+Authors@R: c(
+    person("Nuest", "Daniel", role = c("aut", "cre"), email = "daniel.nuest@uni-muenster.de", comment = c(ORCID = "0000-0003-2392-6140")),
+    person("Kühnel", "Timm", role = c("aut"), comment = c(ORCID = "0000-0001-9757-4657")))
+Description: A microservice in the o2r web API (http://o2r.info/o2r-web-api/) for inspecting contents of RData files on a server.
+Depends: R (>= 3.4.3)
+License: Apache License 2.0 | file LICENSE
+URL: https://github.com/o2r/o2r-inspecter, http://o2r.info
+BugReports: https://github.com/o2r/o2r-inspecter/issues
+Encoding: UTF-8
+LazyData: true
+Imports: plumber,
+    jsonlite,
+    debugme
+RoxygenNote: 6.0.1
+Suggests: testthat,
+    httr

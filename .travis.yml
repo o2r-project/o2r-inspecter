@@ -1,0 +1,31 @@
+language: r
+
+r:
+  - release
+
+cache: packages
+sudo: required
+dist: trusty
+
+services:
+  - docker
+
+warnings_are_errors: true
+
+before_install:
+  - docker pull rocker/verse:3.4.3
+
+r_packages:
+  - lintr
+  - testthat
+  - roxygen2
+  - devtools
+
+r_github_packages:
+  - "r-lib/testthat"
+
+script:
+  - Rscript -e 'devtools::test()'
+
+after_success:
+  - Rscript -e 'lintr::lint_package()'
