@@ -6,6 +6,7 @@
 
 # directo copy of plumber::serialzer_json, see https://github.com/trestletech/plumber/issues/220
 .serializer_json <- function(...){
+  # nolint start
   function(val, req, res, errorHandler){
     tryCatch({
       json <- jsonlite::toJSON(val, ...)
@@ -14,35 +15,13 @@
       res$body <- json
 
       return(res$toResponse())
-    }, error = function(e){
+    }
+    , error = function(e){
       errorHandler(req, res, e)
     })
   }
+  # nolint end
 }
-
-#' See https://github.com/jeroen/jsonlite/issues/62 and https://github.com/jeroen/jsonlite/pull/90
-#'
-#myToJSON <- function(x, ...){
-#  UseMethod("myToJSON")
-#}
-#myToJSON.default <- jsonlite::toJSON;
-#myToJSON.call <- function(x, ...){
-#  jsonlite::toJSON(deparse(x))
-#}
-#myToJSON.expression <- function(x, ...){
-#  jsonlite::toJSON(deparse(x))
-#}
-#asJSON <- jsonlite:::asJSON
-#setMethod("asJSON", "call", function(x, ...) {
-#  asJSON(deparse(x), ...)
-#})
-#setMethod("asJSON", "expression", function(x, ...) {
-#  asJSON(deparse(x), ...)
-#})
-# installation does not work with error:
-# Error: package or namespace load failed for ‘inspecter’ in .mergeMethodsTable(generic, mtable, tt, attach):
-#  invalid object in meta table of methods for ‘asJSON’, label ‘expression’, had class “function”
-# Error: loading failed
 
 #' Start the inspecter microservice
 #'
@@ -54,34 +33,37 @@
 #' @importFrom utils object.size
 start <- function() {
   "!DEBUG Starting..."
-  "!DEBUG Configuration: base path: `getOption('inspecter.base.path')` host: `getOption('inspecter.host')` port: `getOption('inspecter.port')`"
-  "!!!DEBUG Full environment:\n`print(base::Sys.getenv())`"
+  "!DEBUG Configuration:
+    base path:  `getOption('inspecter.base.path')`
+    host:       `getOption('inspecter.host')`
+    port:       `getOption('inspecter.port')`"
+  "!!!DEBUG Full environment:
+  `capture.output(base::Sys.getenv())`"
 
   pr <- plumber::plumber$new()
 
   # add logging hooks
-  pr$registerHook("preroute", function(req){
+  pr$registerHook("preroute", function(req){ # nolint
     "!DEBUG `paste(.log_timestamp(), req$REQUEST_METHOD, req$PATH_INFO, ' ', req$QUERY_STRING, '|',
                     req$HTTP_USER_AGENT, 'from', req$REMOTE_ADDR)`"
   })
-  pr$registerHook("postserialize", function(req, res){
+  pr$registerHook("postserialize", function(req, res){ # nolint
     "!DEBUG `paste(.log_timestamp(), req$REQUEST_METHOD, req$PATH_INFO, ' ', req$QUERY_STRING, '|',
                     'Response sent:', res$status,
                     '| size:', format(utils::object.size(x = res$body), standard = 'IEC', unit = 'auto'))`"
   })
-  pr$registerHook("exit", function(){
+  pr$registerHook("exit", function(){ # nolint
     "!DEBUG shutting down at `.log_timestamp()`"
   })
 
-  # add handlers for endpoints, annotations don't play nicely with debugme and environments,
-  # see
-  pr$handle(method = "GET", path = "/status",
+  # add handlers for endpoints, annotations don't play nicely with debugme and environments
+  pr$handle(method = "GET", path = "/status", # nolint
             handler = inspecter:::status,
             serializer = plumber::serializer_json())
-  pr$handle(method = "GET", path = "/api/v1/compendium",
+  pr$handle(method = "GET", path = "/api/v1/compendium", # nolint
             handler = inspecter:::list_compendia,
             serializer = plumber::serializer_json())
-  pr$handle(method = "GET", path = "/api/v1/inspection/<compendium_id>",
+  pr$handle(method = "GET", path = "/api/v1/inspection/<compendium_id>", # nolint
             handler = inspecter:::inspection,
             serializer = .serializer_json(force = TRUE)) # plumber::serializer_json())
 

@@ -14,9 +14,11 @@ setup({
                             stdout = TRUE,
                             stderr = TRUE)
     output
-  }, warning = function(w){
+  }
+  , warning = function(w){
     output
-  }, finally = {
+  }
+  , finally = {
     setwd("tests/testthat")
   })
 

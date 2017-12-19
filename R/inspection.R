@@ -52,7 +52,7 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
     # return all objects in the file
     .objects <- base::ls(envir = compendium_env, all.names = TRUE)
     response <- base::mget(.objects, envir = compendium_env)
-    response <- .processObjects(response)
+    response <- .process_objects(response)
     "!!DEBUG Returning response: \n`capture.output(str(response, max.level = 2))`"
    base::rm("compendium_env")
    return(response)
@@ -64,13 +64,13 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
     unloadable <- base::list()
     .objects <- base::sapply(X = .objects, FUN = function(.o) {
       tryCatch({
-          .loaded <- base::get(.o, envir = compendium_env)
-          "!!!DEBUG Can load '`.o`': `toString(.loaded)`"
+          base::get(.o, envir = compendium_env)
+          "!!!DEBUG '`.o`' is loadable: `base::get(.o, envir = compendium_env)`"
           return(.o)
       },
       error = function(e) {
-        "!DEBUG Error loading object `.o`: `toString(e)`"
-        unloadable <<- base::c(unloadable, paste0("Error: Object '", .o, "' does not exist in the file ", file_sanitized))
+        unloadable <<- base::c(unloadable,
+                               paste0("Error: Object '", .o, "' does not exist in the file ", file_sanitized))
         return(NULL)
       })
     })
@@ -83,7 +83,7 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
     response <- NULL
     if (length(.objects) > 0) {
       response <- base::mget(.objects, envir = compendium_env)
-      response <- .processObjects(response)
+      response <- .process_objects(response)
 
       if (base::length(unloadable) > 0)
         response <- base::c(response, list(errors = unlist(unloadable)))
@@ -100,7 +100,7 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
   }
 }
 
-.processObjects <- function(input) {
+.process_objects <- function(input) {
   out <- lapply(input, function(.o) {
     if (class(.o) == "call" || class(.o) == "expression")
       return(deparse(.o))

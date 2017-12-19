@@ -2,7 +2,7 @@
 
 library("httr")
 library("jsonlite")
-context("/status")
+context("status")
 
 test_that("status response is HTTP 200", {
   r <- GET("http://localhost:8091/status")

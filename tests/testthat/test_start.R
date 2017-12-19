@@ -2,7 +2,7 @@
 
 library("httr")
 library("jsonlite")
-context("/api, /api/v1, etc.")
+context("/api, api/v1, etc.")
 
 test_that("/api is HTTP 404 with valid JSON", {
   r <- GET("http://localhost:8091/api")

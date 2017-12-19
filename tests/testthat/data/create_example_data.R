@@ -14,22 +14,22 @@ aString <- "The force is great in o2r."
 save(anInteger, aDouble, aChar, aString, file = "kOSMO/simple.RData")
 
 # vectors
-numericVector <- c(1,2,3.5,4.6,-7,.8)
+numericVector <- c(1, 2, 3.5, 4.6, -7, .8)
 characterVector <- c("one", "two", "3")
 logicalVector <- c(TRUE, TRUE, FALSE, FALSE, TRUE, FALSE)
 save(numericVector, characterVector, logicalVector, file = "0Druu/vectors.RData")
 
 # matrix, data.frame, tables
 numericMatrix <- matrix(1:20, nrow = 5, ncol = 4)
-cells <- c(1,26,24,68)
+cells <- c(1, 26, 24, 68)
 rnames <- c("R1", "R2")
 cnames <- c("C1", "C2")
 namedMatrix <- matrix(cells, nrow = 2, ncol = 2, byrow = TRUE, dimnames = list(rnames, cnames))
 
-x <- c(1,2,3,4)
+x <- c(1, 2, 3, 4)
 y <- c(TRUE, TRUE, TRUE, FALSE)
 z <- c("red", "white", "red", NA)
-dataFrame <- data.frame(x,y,z)
+dataFrame <- data.frame(x, y, z)
 names(dataFrame) <- c("ID", "Passed", "Colour")
 save(namedMatrix, dataFrame, file = "oZ5zA/matrices.RData")
 
@@ -42,7 +42,7 @@ save(orderedList, emptyList, file = "0Druu/lists.RData")
 factors <- factor(c(rep("oneThing", 10), rep("otherThing", 20)))
 save(factors, file = "WQI9V/factors.RData")
 
-# functions & environments
+# functions & environments # nolint
 f <- function() "my fun function"
 myFunction <- function(x, y) {
   x + y
@@ -54,7 +54,7 @@ myEnv <- new.env()
 environment(f) <- myEnv
 save(myFunction, myOtherFunction, file = "WQI9V/functions.RData")
 
-# expressions & calls
+# expressions & calls # nolint
 xprssn <- expression(1 + 0:9)
 cl <- call("round", 0.42)
 save(xprssn, cl, file = "WQI9V/expressions.RData")#
