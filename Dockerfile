@@ -27,6 +27,11 @@ WORKDIR /inspecter
 RUN R -q -e 'devtools::install()'
 RUN rm -r /inspecter
 
+ARG VERSION=dev
+ARG VCS_URL
+ARG VCS_REF
+ARG BUILD_DATE
+
 ENV DEBUGME=inspecter
 
 LABEL maintainer="o2r-project <https://o2r.info>" \
