@@ -13,4 +13,4 @@ ENV INSPECTER_BASEPATH=/inspecter/tests/testthat/data/
 LABEL maintainer="o2r-project <https://o2r.info>"
 
 ENTRYPOINT ["R"]
-CMD ["-e", "library('inspecter'); inspecter::start()"]
+CMD ["-e", "library('inspecter', verbose = TRUE); inspecter::start()"]

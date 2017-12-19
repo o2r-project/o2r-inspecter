@@ -8,6 +8,9 @@ Implements the endpoint `/api/v1/inspection` using [plumber](https://www.rplumbe
 
 ## Run
 
+Configuration is done via environment variables.
+They _must_ be set _before_ loading the package (i.e. `library("inspecter")`).
+
 From R:
 
 ```r
@@ -20,17 +23,8 @@ With Docker:
 
 ```bash
 docker build --tag inspecter .
-docker run --rm -it -p 8091:8081 inspecter
+docker run --rm -it -p 8091:8091 inspecter
 ```
-
-`/api/v1/inspection/<compendium_id>?file=filename.RData`
-returns contents of an `.RData`-file. Currently only possible within the `o2r-inspecter/test/` directory with mock compendium directory `testCompendium`.
-Name of file must be correct, error handling breaks. 
-
-`@param objects`
-if not specified, entire content of `.RData`-file is returned. Currently, only one object can be specified; specifying more than one breaks the `for()`-loop.
-
-`<ip>:8091/api` shows the microservice status.
 
 ## Configuration
 
@@ -39,11 +33,13 @@ if not specified, entire content of `.RData`-file is returned. Currently, only o
 - `INSPECTER_HOST`
   The host to listen to, defaults to `0.0.0.0`
 - `INSPECTER_BASEPATH`
-  The data directory, defaults to `/tmp/o2r`
+  The data directory, defaults to `/tmp/o2r/compendium` (i.e. inspecter only reads files from compendia, not from jobs)
 
 ### API docs
 
-`plumber` integrates a swagger UI, you can normally open it at http://127.0.0.1:8091/__swagger__/.
+See [http://o2r.info/o2r-web-api/compendium/files/#file-inspection-rdata](http://o2r.info/o2r-web-api/compendium/files/#file-inspection-rdata)
+
+`<ip>:8091/status` shows the microservice status.
 
 ## Development
 
@@ -59,6 +55,8 @@ For developing tests, it is useful to run the service from the terminal and have
 DEBUGME=inspecter INSPECTER_BASEPATH=$(pwd)/tests/testthat/data R -q -e 'library("inspecter"); inspecter::start()'
 ```
 
+`plumber` integrates a swagger UI, you can open it at http://127.0.0.1:8091/__swagger__/.
+
 ### Run tests
 
 ```r
@@ -68,7 +66,7 @@ devtools::test()
 We must start the service independently of the tests, so the tests include building the inspecter Docker image and starting/removing of a Docker container.
 **It's recommended to build the image manually once to create a build cache**.
 
-The test relies on it's own Dockerfile at `tests/testthat/Dockerfile`, which tries to reduce rebuild time to improve local development experience.
+The test relies on it's own Dockerfile at `tests/testthat/Dockerfile`, which reduces rebuild time to improve local development experience.
 
 ## License
 

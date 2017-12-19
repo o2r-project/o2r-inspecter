@@ -8,7 +8,7 @@
 .onAttach <- function(libname, pkgname) {
   # load configuration from environment variables
   .inspecter_options <- base::list(
-    inspecter.base.path = base::Sys.getenv("INSPECTER_BASEPATH", unset = "/tmp/o2r"), # nolint
+    inspecter.base.path = base::Sys.getenv("INSPECTER_BASEPATH", unset = "/tmp/o2r/compendium"), # nolint
     inspecter.port = base::Sys.getenv("INSPECTER_PORT", unset = "8091"),
     inspecter.host = base::Sys.getenv("INSPECTER_HOST", unset = "0.0.0.0")
   )

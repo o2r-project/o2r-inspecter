@@ -46,4 +46,4 @@ LABEL maintainer="o2r-project <https://o2r.info>" \
   org.label-schema.docker.schema-version="rc1"
 
 ENTRYPOINT ["R"]
-CMD ["-e", "inspecter::start()"]
+CMD ["-e", "library('inspecter', verbose = TRUE); inspecter::start()"]
