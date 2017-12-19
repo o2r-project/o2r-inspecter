@@ -2,4 +2,6 @@
 
 export(start)
 importFrom(debugme,debugme)
+importFrom(utils,capture.output)
 importFrom(utils,object.size)
+importFrom(utils,str)

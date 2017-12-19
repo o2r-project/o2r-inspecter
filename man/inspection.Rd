@@ -15,7 +15,7 @@ inspection(compendium_id, file = NA, objects = NA, req, res)
 
 \item{req}{plumber request object}
 
-\item{rs}{plumber response object}
+\item{res}{plumber response object}
 }
 \description{
 GET /api/v1/inspection/<id> with JSON response

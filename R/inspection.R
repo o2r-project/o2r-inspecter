@@ -6,7 +6,7 @@
 #' @param file required query parameter - the relative path to the file which should be opened
 #' @param objects optional query parameter - names of objects in the binary file to include in the response
 #' @param req plumber request object
-#' @param rs plumber response object
+#' @param res plumber response object
 inspection <- function(compendium_id, file = NA, objects = NA, req, res){
   "!DEBUG for compendium '`compendium_id`' inspect objects '`toString(objects)`' (NA = all) from file '`file`'"
 

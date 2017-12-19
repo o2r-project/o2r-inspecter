@@ -30,7 +30,7 @@
 #' @return function does not return but starts listening on the defined port and HTTP endpoints
 #'
 #' @export
-#' @importFrom utils object.size
+#' @importFrom utils object.size capture.output str
 start <- function() {
   "!DEBUG Starting..."
   "!DEBUG Configuration:
@@ -58,13 +58,13 @@ start <- function() {
 
   # add handlers for endpoints, annotations don't play nicely with debugme and environments
   pr$handle(method = "GET", path = "/status", # nolint
-            handler = inspecter:::status,
+            handler = inspecter::status,
             serializer = plumber::serializer_json())
   pr$handle(method = "GET", path = "/api/v1/compendium", # nolint
-            handler = inspecter:::list_compendia,
+            handler = inspecter::list_compendia,
             serializer = plumber::serializer_json())
   pr$handle(method = "GET", path = "/api/v1/inspection/<compendium_id>", # nolint
-            handler = inspecter:::inspection,
+            handler = inspecter::inspection,
             serializer = .serializer_json(force = TRUE)) # plumber::serializer_json())
 
   print(pr)
