@@ -25,6 +25,8 @@ RUN R -q -e 'install.packages(c("devtools"))'
 COPY . /inspecter
 WORKDIR /inspecter
 RUN R -q -e 'devtools::install()'
+
+WORKDIR /
 RUN rm -r /inspecter
 
 ARG VERSION=dev
