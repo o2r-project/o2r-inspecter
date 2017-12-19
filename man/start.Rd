@@ -2,13 +2,16 @@
 % Please edit documentation in R/start.R
 \name{start}
 \alias{start}
-\title{Start the inspecter microservice}
+\title{See https://github.com/jeroen/jsonlite/issues/62 and https://github.com/jeroen/jsonlite/pull/90}
 \usage{
 start()
 }
 \value{
-a Plumber router
+function does not return but starts listening on the defined port and HTTP endpoints
 }
 \description{
+Start the inspecter microservice
+}
+\details{
 All configuration via environment variables.
 }

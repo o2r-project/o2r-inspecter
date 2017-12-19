@@ -46,7 +46,7 @@ if not specified, entire content of `.RData`-file is returned. Currently, only o
 ## Development
 
 ```r
-Sys.setenv(DEBUGME = "inspecter", INSPECTER_BASEPATH = file.path(getwd(), "tests/testthat/data"))
+Sys.setenv("DEBUGME" = "inspecter", "INSPECTER_BASEPATH" = file.path(getwd(), "tests/testthat/data"))
 library("inspecter")
 inspecter::start()
 ```
@@ -54,7 +54,7 @@ inspecter::start()
 For developing tests, it is useful to run the service from the terminal and have the R session for writing the tests:
 
 ```bash
-DEBUGME=inspecter R -q -e 'library("inspecter"); inspecter::start()'
+DEBUGME=inspecter INSPECTER_BASEPATH=$(pwd)/tests/testthat/data R -q -e 'library("inspecter"); inspecter::start()'
 ```
 
 ### Run tests

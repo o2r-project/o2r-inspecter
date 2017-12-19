@@ -1,13 +1,48 @@
 # Copyright 2017 Opening Reproducible Research (http://o2r.info)
 
-# configure global variables
-.inspecter_base_path <- Sys.getenv("INSPECTER_BASEPATH", unset = "/tmp/o2r")
-.inspecter_port <- Sys.getenv("INSPECTER_PORT", unset = "8091")
-.inspecter_host <- Sys.getenv("INSPECTER_HOST", unset = "0.0.0.0")
-
 .log_timestamp <- function() {
   return(paste(as.character(Sys.time()), "|"))
 }
+
+# directo copy of plumber::serialzer_json, see https://github.com/trestletech/plumber/issues/220
+.serializer_json <- function(...){
+  function(val, req, res, errorHandler){
+    tryCatch({
+      json <- jsonlite::toJSON(val, ...)
+
+      res$setHeader("Content-Type", "application/json")
+      res$body <- json
+
+      return(res$toResponse())
+    }, error = function(e){
+      errorHandler(req, res, e)
+    })
+  }
+}
+
+#' See https://github.com/jeroen/jsonlite/issues/62 and https://github.com/jeroen/jsonlite/pull/90
+#'
+#myToJSON <- function(x, ...){
+#  UseMethod("myToJSON")
+#}
+#myToJSON.default <- jsonlite::toJSON;
+#myToJSON.call <- function(x, ...){
+#  jsonlite::toJSON(deparse(x))
+#}
+#myToJSON.expression <- function(x, ...){
+#  jsonlite::toJSON(deparse(x))
+#}
+#asJSON <- jsonlite:::asJSON
+#setMethod("asJSON", "call", function(x, ...) {
+#  asJSON(deparse(x), ...)
+#})
+#setMethod("asJSON", "expression", function(x, ...) {
+#  asJSON(deparse(x), ...)
+#})
+# installation does not work with error:
+# Error: package or namespace load failed for ‘inspecter’ in .mergeMethodsTable(generic, mtable, tt, attach):
+#  invalid object in meta table of methods for ‘asJSON’, label ‘expression’, had class “function”
+# Error: loading failed
 
 #' Start the inspecter microservice
 #'
@@ -19,8 +54,8 @@
 #' @importFrom utils object.size
 start <- function() {
   "!DEBUG Starting..."
-  "!DEBUG Configuration: base path: `.inspecter_base_path` host: `.inspecter_host` port: `.inspecter_port`"
-  print(Sys.getenv())
+  "!DEBUG Configuration: base path: `getOption('inspecter.base.path')` host: `getOption('inspecter.host')` port: `getOption('inspecter.port')`"
+  "!!!DEBUG Full environment:\n`print(base::Sys.getenv())`"
 
   pr <- plumber::plumber$new()
 
@@ -48,9 +83,11 @@ start <- function() {
             serializer = plumber::serializer_json())
   pr$handle(method = "GET", path = "/api/v1/inspection/<compendium_id>",
             handler = inspecter:::inspection,
-            serializer = plumber::serializer_json())
+            serializer = .serializer_json(force = TRUE)) # plumber::serializer_json())
 
   print(pr)
   "!DEBUG plumber$run()"
-  pr$run(host = .inspecter_host, port = as.numeric(.inspecter_port), debug = TRUE)
+  pr$run(host = base::getOption("inspecter.host"),
+         port = as.numeric(base::getOption("inspecter.port")),
+         debug = TRUE)
 }
