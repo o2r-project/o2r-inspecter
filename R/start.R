@@ -58,13 +58,13 @@ start <- function() {
 
   # add handlers for endpoints, annotations don't play nicely with debugme and environments
   pr$handle(method = "GET", path = "/status", # nolint
-            handler = inspecter::status,
+            handler = status,
             serializer = plumber::serializer_json())
   pr$handle(method = "GET", path = "/api/v1/compendium", # nolint
-            handler = inspecter::list_compendia,
+            handler = list_compendia,
             serializer = plumber::serializer_json())
   pr$handle(method = "GET", path = "/api/v1/inspection/<compendium_id>", # nolint
-            handler = inspecter::inspection,
+            handler = inspection,
             serializer = .serializer_json(force = TRUE)) # plumber::serializer_json())
 
   print(pr)

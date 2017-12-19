@@ -1,5 +1,7 @@
 # o2r-inspecter
 
+[![Build Status](https://travis-ci.org/o2r-project/o2r-inspecter.svg?branch=master)](https://travis-ci.org/o2r-project/o2r-inspecter) [![Microbadger](https://images.microbadger.com/badges/image/o2rproject/o2r-inspecter.svg)](https://microbadger.com/images/o2rproject/o2r-inspecter "badge by microbadger.com") [![](https://images.microbadger.com/badges/version/o2rproject/o2r-inspecter.svg)](https://microbadger.com/images/o2rproject/o2r-inspecter "badge by microbadger.com")
+
 Inspection of binary files for the [o2r Web API](http://o2r.info/o2r-web-api/).
 
 Implements the endpoint `/api/v1/inspection` using [plumber](https://www.rplumber.io/).
