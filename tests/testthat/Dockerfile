@@ -1,13 +1,7 @@
-FROM rocker/r-ver:3.4.3
+FROM rocker/verse:3.4.3
 
-RUN apt-get update -qq && apt-get install -y \
-  git-core \
-  libssl-dev \
-  libcurl4-gnutls-dev \
-  zlib1g-dev
-
-# install dependencies before copying the package to reduce installation time of the package
-RUN R -q -e 'install.packages(c("devtools", "plumber", "jsonlite", "debugme"))'
+# install dependencies not in verse image here to reduce build time (caching) and installation time of the package
+RUN R -q -e 'install.packages(c("plumber", "debugme"))'
 
 COPY . /inspecter
 WORKDIR /inspecter
@@ -19,4 +13,4 @@ ENV INSPECTER_BASEPATH=/inspecter/tests/testthat/data/
 LABEL maintainer="o2r-project <https://o2r.info>"
 
 ENTRYPOINT ["R"]
-CMD ["-e", "inspecter::start()"]
+CMD ["-e", "library('inspecter'); inspecter::start()"]

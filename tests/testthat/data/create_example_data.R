@@ -1,6 +1,6 @@
 # Copyright 2017 Opening Reproducible Research (http://o2r.info)
 
-# manually set the wd to this file's wd!
+# manually set the wd to this file's wd, then source!
 # see https://www.statmethods.net/input/datatypes.html
 
 # create directories in the data storage akin to compendium storage
@@ -57,4 +57,21 @@ save(myFunction, myOtherFunction, file = "WQI9V/functions.RData")
 # expressions & calls
 xprssn <- expression(1 + 0:9)
 cl <- call("round", 0.42)
-save(xprssn, cl, file = "WQI9V/expressions.RData")
+save(xprssn, cl, file = "WQI9V/expressions.RData")#
+
+# classes & methods, based on http://adv-r.had.co.nz/OO-essentials.html
+class3 <- structure(list(), class = "foo")
+class3 <- list()
+class(class3) <- "class3"
+setClass("Person",
+         slots = list(name = "character", age = "numeric"))
+setClass("Employee",
+         slots = list(boss = "Person"),
+         contains = "Person")
+alice <- new("Person", name = "Alice", age = 40)
+john <- new("Employee", name = "John", age = 20, boss = alice)
+Account <- setRefClass("Account",
+                       fields = list(balance = "numeric"))
+a <- Account$new(balance = 100)
+
+save(class3, alice, john, a, file = "WQI9V/subdir/classes.RData")
