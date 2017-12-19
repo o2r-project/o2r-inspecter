@@ -74,4 +74,4 @@ Account <- setRefClass("Account",
                        fields = list(balance = "numeric"))
 a <- Account$new(balance = 100)
 
-save(class3, alice, john, a, file = "WQI9V/subdir/classes.RData")
+save(class3, alice, john, a, file = "WQI9V/subdir/classes_and.also-methods.RData")

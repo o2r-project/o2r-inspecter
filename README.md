@@ -41,6 +41,8 @@ See [http://o2r.info/o2r-web-api/compendium/files/#file-inspection-rdata](http:/
 
 `<ip>:8091/status` shows the microservice status.
 
+For security reasons, inputs (namely `file` and `objects`) are processed to contain only characters allowed for filenames or R objects respectively.
+
 ## Development
 
 ```r
@@ -67,6 +69,8 @@ We must start the service independently of the tests, so the tests include build
 **It's recommended to build the image manually once to create a build cache**.
 
 The test relies on it's own Dockerfile at `tests/testthat/Dockerfile`, which reduces rebuild time to improve local development experience.
+
+When the test fails with "too many failures", the Docker container `inspecter_test` must be removed manually before re-running the tests.
 
 ## License
 

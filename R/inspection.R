@@ -17,15 +17,26 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
     res$status <- 400
     return(list(error = jsonlite::unbox(msg)))
   }
-  file_sanitized <- base::gsub("[^a-zA-Z0-9./]+", "", file)
+  file_sanitized <- base::gsub("[^a-zA-Z0-9._/-]+", "", file)
   if (base::is.na(file_sanitized) || base::nchar(file_sanitized) < 1) {
     msg <- "Query parameter 'file' missing"
     res$status <- 400
     return(list(error = jsonlite::unbox(msg)))
   }
+  .objects <- list()
+  if (!is.na(objects)) {
+    # remove empty strings
+    .objects <- base::unlist(strsplit(x = objects, split = ","))
+    .objects <- .objects[.objects != ""]
+    # sanitize names
+    .objects <- as.list(make.names(.objects))
+  }
 
   full_compendium_path <- base::file.path(base::getOption("inspecter.base.path"), id_sanitized)
-  "!!DEBUG Get file `file_sanitized` for compendium `id_sanitized` from path `full_compendium_path`"
+  "!!DEBUG Get file `file_sanitized`
+    for compendium  `id_sanitized`
+    from path       `full_compendium_path`
+    with objects:   `toString(.objects)`"
 
   if (!base::dir.exists(full_compendium_path)) {
     msg <- base::paste0("compendium '", id_sanitized, "' does not exist")
@@ -46,8 +57,6 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
   base::load(full_file_path, envir = compendium_env)
   "!!DEBUG Loaded file, environment contents: `toString(ls(compendium_env, all.names = TRUE))`"
 
-  .objects <- list()
-
   if (base::is.na(objects)) {
     # return all objects in the file
     .objects <- base::ls(envir = compendium_env, all.names = TRUE)
@@ -57,8 +66,6 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
    base::rm("compendium_env")
    return(response)
   } else {
-    .objects <- base::unlist(strsplit(x = objects, split = ","))
-    .objects <- .objects[.objects != ""]
     "!!DEBUG Returning only `length(.objects)` object(s): `toString(.objects)`"
 
     unloadable <- base::list()
