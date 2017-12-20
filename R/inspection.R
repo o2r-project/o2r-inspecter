@@ -61,7 +61,7 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
     # return all objects in the file
     .objects <- base::ls(envir = compendium_env, all.names = TRUE)
     response <- base::mget(.objects, envir = compendium_env)
-    response <- .process_objects(response)
+    response <- .process_objects(response) # nolint
     "!!DEBUG Returning response: \n`capture.output(str(response, max.level = 2))`"
    base::rm("compendium_env")
    return(response)
@@ -90,7 +90,7 @@ inspection <- function(compendium_id, file = NA, objects = NA, req, res){
     response <- NULL
     if (length(.objects) > 0) {
       response <- base::mget(.objects, envir = compendium_env)
-      response <- .process_objects(response)
+      response <- .process_objects(response) # nolint
 
       if (base::length(unloadable) > 0)
         response <- base::c(response, list(errors = unlist(unloadable)))
