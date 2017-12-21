@@ -4,7 +4,7 @@
   return(paste(as.character(Sys.time()), "|"))
 }
 
-# directo copy of plumber::serialzer_json, see https://github.com/trestletech/plumber/issues/220
+# direct to copy of plumber::serializer_json, see https://github.com/trestletech/plumber/issues/220
 .serializer_json <- function(...){
   # nolint start
   function(val, req, res, errorHandler){
